@@ -5,6 +5,7 @@
 	@ CORE = lay duong dan thu muc /core
 **/
 define ('THEME_URL', get_stylesheet_directory() );
+//get_stylesheet_directory() lay duong dan tuyet doi
 define( 'CORE', THEME_URL . "/core");
 
 /**
@@ -46,7 +47,7 @@ if (!function_exists('cosmetic_theme_setup')){
 		$default_background = array('default-color'=>'#e8e8e8');
 		add_theme_support('custom-background', $default_background);
 		/* Them menu */
-		register_nav_menu( 'primary_menu', __('Primary Menu', 'cosmetic') ); 
+		register_nav_menu( 'primary_menu', __( 'Primary Menu', 'cosmetic') ); 
 		/* Tao sidebar*/
 		$sidebar = array(
 			'name'=> __('Main Sidebar', 'cosmetic'),
@@ -175,8 +176,8 @@ if(!function_exists('cosmetic_entry_meta')){
 cosmetic_entry_content = bao hien thi noi dung cua post/page
 **/
 if( !function_exists('cosmetic_entry_content')){
-	function cosmetic_entry_content(){
-		if(!is_single()){
+	function cosmetic_entry_content() {
+		if(!is_single() && !is_page() ) {
 			the_excerpt();
 		}else{
 			the_content();
@@ -209,3 +210,11 @@ if( !function_exists('cosmetic_entry_tag')){
 		endif;
 	}
 }
+/*========Nhung file style.css========*/
+function cosmetic_style() {
+	wp_register_style( 'reset-style', get_template_directory_uri().'/reset.css', 'all' );
+	wp_enqueue_style('reset-style');
+	wp_register_style( 'main-style', get_template_directory_uri()."/style.css", 'all' );//Them vao bo nho
+	wp_enqueue_style('main-style');//Goi ra
+}
+add_action('wp_enqueue_scripts','cosmetic_style');
